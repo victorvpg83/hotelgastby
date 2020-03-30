@@ -1,21 +1,52 @@
 import React from "react"
-import { Link } from "gatsby"
+import { css } from '@emotion/core'
+import styled from '@emotion/styled'
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+import Layout from '../components/layout'
+import HotelImage from '../components/hotelImage'
+import IndexContent from '../components/indexContent'
+import RoomPreview from '../components/roomPreview'
+import useRooms from '../hooks/useRooms'
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const Ul = styled.ul`
+  max-width: 1200px;
+  width: 95%;
+  margin: 4rem auto 0 auto;
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 3rem
+  }
+`
+
+const IndexPage = () => {
+
+  const rooms = useRooms()
+
+  console.log(rooms)
+
+  return(
+    <Layout>
+      <HotelImage />
+      <IndexContent />
+      <h2
+        css={css`
+          text-align: center;
+          margin-top: 5rem;
+          font-size: 3rem;
+        `}
+      >Nuestras habitaciones
+      </h2>
+      <Ul>
+        { rooms.map(room =>(
+          <RoomPreview
+            key={room.id}
+            room={room}
+          />
+        )) }
+      </Ul>
+    </Layout>
+  )
+}
 
 export default IndexPage
